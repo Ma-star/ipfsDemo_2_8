@@ -1,7 +1,7 @@
 <template>
   <div class="register">
   	<b-container class="bv-example-row">
-  	<b-form @submit="onSubmit" v-if="show">
+  	<b-form @submit="onSubmit">
       <b-form-group id="emailGroup"
                     label="邮箱"
                     label-for="email">
@@ -50,6 +50,9 @@
 </template>
 
 <script>
+const API ='http://<MyWebAPI>';
+import axios from 'axios'
+import CryptoJS from 'crypto-js/crypto-js'
 export default {
   data () {
     return {
@@ -59,13 +62,32 @@ export default {
         pass1: '',
         pass2: '',
       },
-      show: true
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      if(this.form.pass1!=this.form.pass2){
+        alert("重复密码不一致");
+        return
+      }
+
+      var params = new URLSearchParams();
+      params.append('email', this.form.email);
+      params.append('nick', this.form.nick);
+      params.append('password', CryptoJS.SHA1(this.form.pass1));
+      axios({
+          method: 'post',
+          url:API+"/users/register",
+          data:params
+      }).then((res)=>{
+        if(res.data.code==200){
+          alert("注册成功！");
+          //TODO 跳转到登陆页面
+        }else{
+          console.log(res);
+        }
+      });
     }
   }
 }

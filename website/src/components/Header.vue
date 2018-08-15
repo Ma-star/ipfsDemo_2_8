@@ -17,9 +17,9 @@
 	        <b-button size="sm" class="my-2 my-sm-0" type="submit">搜索</b-button>
 	      </b-nav-form>
 	      <b-nav-item to="/setting">更多</b-nav-item>
-	      <b-nav-item to="/login">登陆</b-nav-item>
+	      <b-nav-item to="/login" v-if="!TOKEN">登陆</b-nav-item>
 	      <b-nav-item to="/register">注册</b-nav-item>
-	      <b-nav-item-dropdown text="bill" right>
+	      <b-nav-item-dropdown text="bill" right v-if="TOKEN">
 	        <b-dropdown-item to="/upload">发布图片</b-dropdown-item>
 	        <b-dropdown-item to="/zone">我的图库</b-dropdown-item>
 	        <b-dropdown-item href="#">退出登陆</b-dropdown-item>
@@ -36,7 +36,8 @@ export default {
   name: 'Header',
   data () {
     return {
-      msg: 'header'
+      msg: 'header',
+      TOKEN: null
     }
   }
 }

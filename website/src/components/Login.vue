@@ -1,7 +1,7 @@
 <template>
   <div class="login">
   	  	<b-container class="bv-example-row">
-  	<b-form @submit="onSubmit" v-if="show">
+  	<b-form @submit="onSubmit">
       <b-form-group id="emailGroup"
                     label="邮箱"
                     label-for="email">
@@ -39,7 +39,6 @@ export default {
         pass1: '',
         pass2: '',
       },
-      show: true
     }
   },
   methods: {

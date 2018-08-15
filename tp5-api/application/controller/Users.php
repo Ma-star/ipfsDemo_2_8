@@ -79,7 +79,7 @@ class Users
             'category'=>$request->post('category',''),
             'description'=>$request->post('description',''),
             'info'=>$request->post('info','{}','json_decode'),
-            'size'=>$request->post('size',''),
+            'size'=>$request->post('size',0),
             'user'=>$user->id,
         ];
 
@@ -101,7 +101,7 @@ class Users
         }
         return ['code'=>501,'msg'=>'添加失败!'];
     }
-    public function update(Request $request)
+    public function upload(Request $request)
     {
         $token = $request->post('token','');
 
