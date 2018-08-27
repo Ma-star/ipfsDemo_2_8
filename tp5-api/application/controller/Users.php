@@ -53,7 +53,7 @@ class Users
                 ];
                 return ['code'=>200,'token'=>$token,'msg'=>'登陆成功!','user'=>$data];
             }
-            return ['code'=>200,'msg'=>'用户名或密码错误！'];
+            return ['code'=>501,'msg'=>'用户名或密码错误！'];
 
         }
         return ['code'=>501,'msg'=>'用户不存在，请前往注册!'];
