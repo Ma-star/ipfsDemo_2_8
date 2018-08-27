@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-  	  	<b-container class="bv-example-row">
+  	<b-container class="bv-example-row">
   	<b-form @submit="onSubmit">
       <b-form-group id="emailGroup"
                     label="邮箱"
@@ -17,7 +17,7 @@
                     label-for="pass">
         <b-form-input id="pass"
                       type="text"
-                      v-model="form.pass"
+                      v-model="form.pass1"
                       required
                       placeholder="输入密码">
         </b-form-input>
@@ -30,21 +30,40 @@
 </template>
 
 <script>
+const API ='http://<MyWebAPI>';
+import axios from 'axios'
+import CryptoJS from 'crypto-js/crypto-js'
 export default {
   data () {
     return {
       form: {
         email: '',
-        nick: '',
         pass1: '',
-        pass2: '',
       },
     }
   },
   methods: {
     onSubmit (evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      var params = new URLSearchParams();
+      params.append('email', this.form.email);
+      params.append('password', CryptoJS.SHA1(this.form.pass1));
+      axios({
+          method: 'post',
+          url:API+"/users/login",
+          data:params
+      }).then((res)=>{
+        if(res.data.code==200){
+          alert("登陆成功！");
+          localStorage.setItem('TOKEN',res.data.token);
+          localStorage.setItem('nick',res.data.user.nick);
+          localStorage.setItem('email',res.data.user.email);
+          localStorage.setItem('user',res.data.user.user);
+          //TODO 跳转到个人中心页面
+        }else{
+          console.log(res);
+        }
+      });
     }
   }
 }
